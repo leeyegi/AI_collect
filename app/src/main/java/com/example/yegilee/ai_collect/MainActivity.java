@@ -144,7 +144,7 @@ public class MainActivity  extends BlunoLibrary {
 
 		bufferStr.append(theString);
 
-		//Log.e("datalog", String.valueOf(bufferStr));
+		Log.e("datalog", String.valueOf(bufferStr));
 		//Log.e("datalog length", String.valueOf(bufferStr.length()));
 		if(bufferStr.length()>20 && bufferStr.lastIndexOf("\n")>1) {
 			//Thread threadOne = new Thread1();
@@ -169,9 +169,10 @@ public class MainActivity  extends BlunoLibrary {
 			}else{
 				drop=bufferStr.substring(index1, index2);
 				tmp  = bufferStr.delete(0, index2);
+				//textSerialReceived.append("drop data occured\n");
 			}
-			if(queueStr.size()%10==0 && queueSave.size()%10==0) {
-				textSerialReceived.append("queueStr length" + String.valueOf(queueStr.size()) + "\n");
+			if(/*queueStr.size()%10==0 &&*/ queueSave.size()%10==0) {
+				//textSerialReceived.append("queueStr length" + String.valueOf(queueStr.size()) + "\n");
 				textSerialReceived.append("queueSave length" + String.valueOf(queueSave.size()) + "\n");
 			}
 			index1 = 1;
