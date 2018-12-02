@@ -19,23 +19,21 @@ import java.util.Queue;
 
 public class MainActivity  extends BlunoLibrary {
 	private Button buttonScan;
-	//private TextView textAdress;
 	private TextView textState;
 	private EditText editLableNum;
 	private Button buttonStart;
 	private Button buttonEnd;
 	private TextView textSerialReceived;
 
-	int i;
+
 	String labelValue;
-	byte[] dataTmp;
 	boolean flagSave=false;
 
 	final static String foldername = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Documents/";
 	final static String filename = "logfile.txt";
 	final static String filename2 = "tagfile.txt";
 	int globalIdx=0;
-	int globalIdx2=0;
+
 
 
 	FileOutputStream fos;
@@ -134,9 +132,8 @@ public class MainActivity  extends BlunoLibrary {
 	StringBuilder  bufferStr=new StringBuilder ();
 	int index1=0;
 	int index2=0;
-	String drop;
 	StringBuilder tmp;
-	String tmp2[];
+
 	@Override
 	public void onSerialReceived(String theString) {                     //Once connection data received, this function will be called
 		// TODO Auto-generated method stub
@@ -144,39 +141,47 @@ public class MainActivity  extends BlunoLibrary {
 
 		bufferStr.append(theString);
 
-		Log.e("datalog", String.valueOf(bufferStr));
-		//Log.e("datalog length", String.valueOf(bufferStr.length()));
-		if(bufferStr.length()>20 && bufferStr.lastIndexOf("\n")>1) {
+		//textSerialReceived.append(String.valueOf(bufferStr.length())+"\n");
+
+
+		if(bufferStr.length()>25 && bufferStr.lastIndexOf("\n")>1) {
 			//Thread threadOne = new Thread1();
 			//threadOne.start();
 			index2 = bufferStr.lastIndexOf("\n");
 
-			if(bufferStr.lastIndexOf("\n")<45) {
+			//if(bufferStr.lastIndexOf("\n")<45) {
 
 				if(flagSave==true) {
 					//Log.e("index length", String.valueOf(index1) + " " + String.valueOf(index2));
-
+					//textSerialReceived.append(String.valueOf(bufferStr));
 					queueSave.offer(bufferStr.substring(index1, index2));
 					tmp  = bufferStr.delete(0, index2);
 
-				}else {
-
+				}else{
+					//textSerialReceived.append(String.valueOf(bufferStr));
 					queueStr.offer(bufferStr.substring(index1, index2));
 					tmp  = bufferStr.delete(0, index2);
 
 				}
-
-			}else{
-				drop=bufferStr.substring(index1, index2);
-				tmp  = bufferStr.delete(0, index2);
+			//tmp  = bufferStr.delete(0,bufferStr.length());
+			//}else{
+				//drop=bufferStr.substring(index1, index2);
+				//tmp  = bufferStr.delete(0, index2);
 				//textSerialReceived.append("drop data occured\n");
-			}
-			if(/*queueStr.size()%10==0 &&*/ queueSave.size()%10==0) {
-				//textSerialReceived.append("queueStr length" + String.valueOf(queueStr.size()) + "\n");
-				textSerialReceived.append("queueSave length" + String.valueOf(queueSave.size()) + "\n");
-			}
+			//}
 			index1 = 1;
+			if(queueStr.size()%10==0 && queueSave.size()%10==0) {
+			textSerialReceived.append("queueStr length" + String.valueOf(queueStr.size()) + "\n");
+			textSerialReceived.append("queueSave length" + String.valueOf(queueSave.size()) + "\n");
+			}
+
+
+			//tmp  = bufferStr.delete(0,bufferStr.length());
+			//Log.e("tmp", String.valueOf(tmp));
 		}
+
+
+
 		//The Serial data from the BLUNO may be sub-packaged, so using a buffer to hold the String is a good choice.
 		((ScrollView)textSerialReceived.getParent()).fullScroll(View.FOCUS_DOWN);
 	}
